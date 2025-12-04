@@ -26,4 +26,5 @@ jobs:
             -e "ssh -i ~/.ssh/edumai_github_ndi -o IdentitiesOnly=yes" \
             --exclude ".git" \
             --exclude ".github" \
-            . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/dumaetienne/www/
+            . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/www/
+
