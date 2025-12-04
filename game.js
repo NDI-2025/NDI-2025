@@ -23,14 +23,10 @@ class Game {
 
     // Collision avec les bords
     clampToBounds(obj) {
-        if (
-            obj.x < 0 ||
-            obj.y < 0 ||
-            obj.x + this.snake.size > this.width ||
-            obj.y + this.snake.size > this.height
-        ) {
-            this.reset();
-        }
+        if(obj.x < 0) obj.x = this.width - this.snake.size;
+        if(obj.y < 0) obj.y = this.height - this.snake.size;
+        if(obj.x + this.snake.size > this.width) obj.x = 0;
+        if(obj.y + this.snake.size > this.height) obj.y = 0;
     }
 
     // Reset du jeu

@@ -57,7 +57,7 @@
         const H = canvas.height;
 
         // Initialisation du jeu
-        let snake = new Snake([{x: 100, y: 100}], 20, 'lime', {x: 0, y: 0}, 5);
+        let snake = new Snake([{x: 100, y: 100}], 50, 'lime', {x: 0, y: 0}, 5);
         let food = new Food(200, 200, 20, 'red', '🍎'); 
         const game = new Game(W, H, snake, food, ctx);
         game.init();
