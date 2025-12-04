@@ -14,6 +14,8 @@ function readInput() {
     return { dx, dy };
 }
 
+const directionKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "q", "s", "d", "Z", "Q", "S", "D"];
+
 // Input
 const keys = {
     ArrowUp: false,
@@ -31,8 +33,16 @@ const keys = {
 };
 
 window.addEventListener("keydown", (e) => {
-    if (e.key in keys) keys[e.key] = true;
-    // raccourci réinitialiser
+    if (directionKeys.includes(e.key)) {
+        // Met tout à false
+        for (const k of directionKeys) {
+            keys[k] = false;
+        }
+        // Active seulement cette touche
+        keys[e.key] = true;
+    }
+
+    // touche reset
     if (e.key === "r" || e.key === "R") game.reset();
 });
 window.addEventListener("keyup", (e) => {

@@ -43,7 +43,7 @@ class Game {
         const input = readInput();
 
         // Mettre à jour la direction seulement si une touche est pressée
-        if (input.dx !== 0 || input.dy !== 0) {
+        if ( this.checkOppositeDirectionChange(input)  && (input.dx !== 0 || input.dy !== 0)  ) {
             this.snake.direction.x = input.dx;
             this.snake.direction.y = input.dy;
         }
@@ -119,6 +119,18 @@ class Game {
                 this.food.push(newFood);
             }
         }
+    }
+
+    // Vérifier que le serpent ne puisse pas faire demi-tour instantanément
+    checkOppositeDirectionChange(input) {
+        const currentDx = this.snake.direction.x;
+        const currentDy = this.snake.direction.y;
+        const newDx = input.dx;
+        const newDy = input.dy;
+        if ((currentDx === -newDx || currentDy === -newDy) && (currentDx !== 0 || currentDy !== 0)) {
+            return false;
+        }
+        return true;
     }
 
     // Boucle de jeu
