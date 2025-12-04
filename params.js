@@ -8,7 +8,6 @@ class Params {
 
     static food = {
         size: 20,
-        color: 'red',
         icons: ['🍎', '🍌', '🍇', '🍉', '🍒']
     }
 }

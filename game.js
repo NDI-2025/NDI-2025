@@ -43,7 +43,10 @@ class Game {
         const input = readInput();
 
         // Mettre à jour la direction seulement si une touche est pressée
-        if ( this.checkOppositeDirectionChange(input)  && (input.dx !== 0 || input.dy !== 0)  ) {
+        if (
+            this.checkOppositeDirectionChange(input) &&
+            (input.dx !== 0 || input.dy !== 0)
+        ) {
             this.snake.direction.x = input.dx;
             this.snake.direction.y = input.dy;
         }
@@ -55,6 +58,11 @@ class Game {
 
         // Vérifie les collisions avec les bords
         this.clampToBounds(this.snake.body[0]);
+
+        // Vérifie la collision avec lui-même
+        if (this.checkSelfCollision()) {
+            this.endGame();
+        }
 
         // Vérifie la collision avec la nourriture
         this.checkFoodCollision();
@@ -92,11 +100,15 @@ class Game {
                 head.y < currentFood.y + currentFood.size &&
                 head.y + this.snake.size > currentFood.y
             ) {
+                if (currentFood.type === "poison") {
+                    this.endGame();
+                    return;
+                }
+
                 // Mange la nourriture
                 for (let i = 0; i < this.params.snake.increasePerFood; i++)
                     this.snake.body.push({ x: head.x, y: head.y });
 
-                
                 // Repositionne la nourriture
                 this.food.splice(i, 1);
 
@@ -105,15 +117,16 @@ class Game {
                     this.params.food.icons[
                         Math.floor(
                             Math.random() * this.params.food.icons.length
-                        )   
-                    ];;
+                        )
+                    ];
                 const newFood = new Food(
-                    Math.floor(Math.random() * (this.width / this.params.food.size)) *
-                        this.params.food.size,
-                    Math.floor(Math.random() * (this.height / this.params.food.size)) *
-                        this.params.food.size,
+                    Math.floor(
+                        Math.random() * (this.width / this.params.food.size)
+                    ) * this.params.food.size,
+                    Math.floor(
+                        Math.random() * (this.height / this.params.food.size)
+                    ) * this.params.food.size,
                     this.params.food.size,
-                    this.params.food.color,
                     newIcon
                 );
                 this.food.push(newFood);
@@ -127,10 +140,34 @@ class Game {
         const currentDy = this.snake.direction.y;
         const newDx = input.dx;
         const newDy = input.dy;
-        if ((currentDx === -newDx || currentDy === -newDy) && (currentDx !== 0 || currentDy !== 0)) {
+        if (
+            (currentDx === -newDx || currentDy === -newDy) &&
+            (currentDx !== 0 || currentDy !== 0)
+        ) {
             return false;
         }
         return true;
+    }
+
+    // Vérifier si le serpent se mord lui-même
+    checkSelfCollision() {
+        const head = this.snake.body[0];
+        const size = this.snake.size; // taille d’un segment du snake
+
+        for (let i = 1; i < this.snake.body.length; i++) {
+            const s = this.snake.body[i];
+
+            // Collision AABB (Axis-Aligned Bounding Box)
+            const collision =
+                head.x < s.x + size &&
+                head.x + size > s.x &&
+                head.y < s.y + size &&
+                head.y + size > s.y;
+
+            if (collision) return true;
+        }
+
+        return false;
     }
 
     // Boucle de jeu

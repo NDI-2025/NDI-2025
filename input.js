@@ -32,18 +32,47 @@ const keys = {
     D: false,
 };
 
+let lastTurnTime = 0;
+const turnCooldown = 100; // ms
+let queue = [];
+
 window.addEventListener("keydown", (e) => {
+    const now = Date.now();
     if (directionKeys.includes(e.key)) {
+        
+        if (now - lastTurnTime >= turnCooldown) {
+            // Met tout à false
+            for (const k of directionKeys) {
+                keys[k] = false;
+            }
+            // Active seulement cette touche
+            keys[e.key] = true;
+            lastTurnTime = now;
+        } else {
+            // Ajoute à la file d'attente
+            queue.push(e.key);
+        }
+    }
+
+    // Gérer la queue
+    if (queue.length > 0 && now - lastTurnTime >= turnCooldown) {
+        const nextKey = queue.shift();
         // Met tout à false
         for (const k of directionKeys) {
             keys[k] = false;
         }
-        // Active seulement cette touche
-        keys[e.key] = true;
+        // Active seulement la prochaine touche
+        keys[nextKey] = true;
+        lastTurnTime = now;
     }
 
     // touche reset
-    if (e.key === "r" || e.key === "R") game.reset();
+    if (e.key === "r" || e.key === "R") {
+        game.reset();
+        for (const k of directionKeys) {
+            keys[k] = false;
+        }
+    }
 });
 window.addEventListener("keyup", (e) => {
     if (e.key in keys) keys[e.key] = false;
