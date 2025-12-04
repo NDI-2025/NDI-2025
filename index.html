@@ -59,44 +59,8 @@
         // Initialisation du jeu
         let snake = new Snake([{x: 100, y: 100}], 20, 'lime', {x: 0, y: 0}, 5);
         let food = new Food(200, 200, 20, 'red', '🍎'); 
-        const game = new Game(W, H, snake, food, gridSize = 20, ctx);
+        const game = new Game(W, H, snake, food, ctx);
         game.init();
-
-        // Game loop
-        function loop(timestamp) {
-            // Effacer le canvas
-            ctx.fillStyle = '#0b1220';
-            ctx.fillRect(0, 0, W, H);
-
-            // Lire les inputs
-            readInput();
-
-            // Mettre à jour le jeu
-            game.update(1000 / 15); // 15 FPS
-
-            // Dessiner le serpentd
-            ctx.fillStyle = snake.color;
-            snake.body.forEach(segment => {
-                ctx.fillRect(segment.x, segment.y, snake.size, snake.size);
-            });
-
-            // Dessiner la nourriture
-            if (food.icon) {        
-                // Dessiner l'emoji/icon
-                ctx.font = `${food.size}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(food.icon, food.x + food.size / 2, food.y + food.size / 2);
-            } else {
-                // Fallback: rectangle coloré
-                ctx.fillStyle = food.color;
-                ctx.fillRect(food.x, food.y, food.size, food.size);
-            }
-
-            requestAnimationFrame(loop);
-        }
-
-        requestAnimationFrame(loop);
     </script>
 </body>
 
