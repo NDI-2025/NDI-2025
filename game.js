@@ -11,12 +11,13 @@ class Game {
     // Initialisation
     init() {
         // Position initiale de la nourriture
-        this.food.x =
-            Math.floor(Math.random() * (this.width / this.food.size)) *
-            this.food.size;
-        this.food.y =
-            Math.floor(Math.random() * (this.height / this.food.size)) *
-            this.food.size;
+
+        this.food[0].x =
+            Math.floor(Math.random() * (this.width / this.food[0].size)) *
+            this.food[0].size;
+        this.food[0].y =
+            Math.floor(Math.random() * (this.height / this.food[0].size)) *
+            this.food[0].size;
 
         // Lance la boucle de jeu
         this.loop();
@@ -24,16 +25,16 @@ class Game {
 
     // Collision avec les bords
     clampToBounds(obj) {
-        if(obj.x < 0) obj.x = this.width - this.snake.size;
-        if(obj.y < 0) obj.y = this.height - this.snake.size;
-        if(obj.x + this.snake.size > this.width) obj.x = 0;
-        if(obj.y + this.snake.size > this.height) obj.y = 0;
+        if (obj.x < 0) obj.x = this.width - this.snake.size;
+        if (obj.y < 0) obj.y = this.height - this.snake.size;
+        if (obj.x + this.snake.size > this.width) obj.x = 0;
+        if (obj.y + this.snake.size > this.height) obj.y = 0;
     }
 
     // Reset du jeu
     reset() {
-        this.snake.body = [{x: this.width / 2, y: this.height / 2}];
-        this.snake.direction = {x: 0, y: 0};
+        this.snake.body = [{ x: this.width / 2, y: this.height / 2 }];
+        this.snake.direction = { x: 0, y: 0 };
     }
 
     // Mise à jour du jeu
@@ -51,7 +52,7 @@ class Game {
         const dx = this.snake.direction.x;
         const dy = this.snake.direction.y;
         this.snake.move(dx, dy);
-        
+
         // Vérifie les collisions avec les bords
         this.clampToBounds(this.snake.body[0]);
 
@@ -62,52 +63,61 @@ class Game {
     // Rendu du jeu
     draw() {
         // Effacer le canvas
-        this.ctx.fillStyle = '#0b1220';
+        this.ctx.fillStyle = "#0b1220";
         this.ctx.fillRect(0, 0, this.width, this.height);
 
         // Dessiner le serpent
         this.ctx.fillStyle = this.snake.color;
-        this.snake.body.forEach(segment => {
-            this.ctx.fillRect(segment.x, segment.y, this.snake.size, this.snake.size);
+        this.snake.body.forEach((segment) => {
+            this.ctx.fillRect(
+                segment.x,
+                segment.y,
+                this.snake.size,
+                this.snake.size
+            );
         });
 
         // Dessiner la nourriture
-        if (this.food.icon) {
-            // Dessiner l'emoji/icon
-            this.ctx.font = `${this.food.size}px Arial`;
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(this.food.icon, this.food.x + this.food.size / 2, this.food.y + this.food.size / 2);
-        } else {
-            // Fallback: rectangle coloré
-            this.ctx.fillStyle = this.food.color;
-            this.ctx.fillRect(this.food.x, this.food.y, this.food.size, this.food.size);
-        }
+        this.drawFood();
     }
 
     // Check de la collision avec la nourriture
     checkFoodCollision() {
         const head = this.snake.body[0];
-        if (
-            head.x < this.food.x + this.food.size &&
-            head.x + this.snake.size > this.food.x &&
-            head.y < this.food.y + this.food.size &&
-            head.y + this.snake.size > this.food.y
-        ) {
-            // Mange la nourriture
-            for(let i=0; i< this.params.snake.increasePerFood; i++)
-                this.snake.body.push({ x: head.x, y: head.y });
-            
-            // Repositionne la nourriture
-            this.food.x =
-                Math.floor(Math.random() * (this.width / this.food.size)) *
-                this.food.size;
-            this.food.y =
-                Math.floor(Math.random() * (this.height / this.food.size)) *
-                this.food.size;
+        for (let i = 0; i < this.food.length; i++) {
+            let currentFood = this.food[i];
+            if (
+                head.x < currentFood.x + currentFood.size &&
+                head.x + this.snake.size > currentFood.x &&
+                head.y < currentFood.y + currentFood.size &&
+                head.y + this.snake.size > currentFood.y
+            ) {
+                // Mange la nourriture
+                for (let i = 0; i < this.params.snake.increasePerFood; i++)
+                    this.snake.body.push({ x: head.x, y: head.y });
 
-            // Allonge le serpent
-            this.snake.body.push({ x: head.x, y: head.y });
+                
+                // Repositionne la nourriture
+                this.food.splice(i, 1);
+
+                // Ajouter une nouvelle nourriture avec un nouvel icône
+                const newIcon =
+                    this.params.food.icons[
+                        Math.floor(
+                            Math.random() * this.params.food.icons.length
+                        )   
+                    ];;
+                const newFood = new Food(
+                    Math.floor(Math.random() * (this.width / this.params.food.size)) *
+                        this.params.food.size,
+                    Math.floor(Math.random() * (this.height / this.params.food.size)) *
+                        this.params.food.size,
+                    this.params.food.size,
+                    this.params.food.color,
+                    newIcon
+                );
+                this.food.push(newFood);
+            }
         }
     }
 
@@ -116,7 +126,7 @@ class Game {
         this.update();
         this.draw();
         requestAnimationFrame(this.loop);
-    }
+    };
 
     // Fin de partie
     endGame() {
@@ -124,11 +134,37 @@ class Game {
         this.reset();
     }
 
-    // update dthe params 
+    // Dessiner la nourriture
+    drawFood() {
+        for (let i = 0; i < this.food.length; i++) {
+            let currentFood = this.food[i];
+            if (currentFood.icon) {
+                // Dessiner l'emoji/icon
+                this.ctx.font = `${currentFood.size}px Arial`;
+                this.ctx.textAlign = "center";
+                this.ctx.textBaseline = "middle";
+                this.ctx.fillText(
+                    currentFood.icon,
+                    currentFood.x + currentFood.size / 2,
+                    currentFood.y + currentFood.size / 2
+                );
+            } else {
+                // Fallback: rectangle coloré
+                this.ctx.fillStyle = currentFood.color;
+                this.ctx.fillRect(
+                    currentFood.x,
+                    currentFood.y,
+                    currentFood.size,
+                    currentFood.size
+                );
+            }
+        }
+    }
+
+    // update dthe params
     updateParams(newParams) {
         this.params = newParams;
 
         this.reset();
     }
-    
 }

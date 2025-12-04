@@ -66,8 +66,8 @@
 
         // Initialisation du jeu
         let snake = new Snake([{ x: 100, y: 100 }], 35, 'lime', { x: 0, y: 0 }, 5, Params);
-        let food = new Food(200, 200, 20, 'red', '🍎');
-        const game = new Game(W, H, snake, food, ctx);
+        let food = [new Food(200, 200, 20, 'red', '🍎'), new Food(400, 400, 15, 'red', '🍒')];
+        const game = new Game(W, H, snake, food, ctx, Params);
         game.init();
     </script>
 </body>
