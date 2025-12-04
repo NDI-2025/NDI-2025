@@ -1,0 +1,28 @@
+name: Deploy to AlwaysData
+
+on:
+  push:
+    branches:
+      - master      # Déclenchement après merge de PR sur master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed209
+          chmod 600 ~/.ssh/id_ed209
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: |
+          rsync -az --delete \
+            --exclude ".git" \
+            --exclude ".github" \
+            . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/dumaetienne/www/
