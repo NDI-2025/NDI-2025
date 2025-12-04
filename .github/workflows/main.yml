@@ -3,7 +3,7 @@ name: Deploy to AlwaysData
 on:
   push:
     branches:
-      - master      # Déclenchement après merge de PR sur master
+      - master
 
 jobs:
   deploy:
@@ -16,13 +16,14 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed209
-          chmod 600 ~/.ssh/id_ed209
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/edumai_github_ndi
+          chmod 600 ~/.ssh/edumai_github_ndi
           ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
         run: |
           rsync -az --delete \
+            -e "ssh -i ~/.ssh/edumai_github_ndi -o IdentitiesOnly=yes" \
             --exclude ".git" \
             --exclude ".github" \
             . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/dumaetienne/www/
