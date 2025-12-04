@@ -55,23 +55,7 @@ class Game {
         this.clampToBounds(this.snake.body[0]);
 
         // Vérifie la collision avec la nourriture
-        const head = this.snake.body[0];
-        if (
-            head.x < this.food.x + this.food.size &&
-            head.x + this.snake.size > this.food.x &&
-            head.y < this.food.y + this.food.size &&
-            head.y + this.snake.size > this.food.y
-        ) {
-            // Mange la nourriture
-            this.snake.body.push({ x: head.x, y: head.y });
-            // Repositionne la nourriture
-            this.food.x =
-                Math.floor(Math.random() * (this.width / this.food.size)) *
-                this.food.size;
-            this.food.y =
-                Math.floor(Math.random() * (this.height / this.food.size)) *
-                this.food.size;
-        }
+        this.checkFoodCollision();
     }
 
     // Rendu du jeu
@@ -97,6 +81,31 @@ class Game {
             // Fallback: rectangle coloré
             this.ctx.fillStyle = this.food.color;
             this.ctx.fillRect(this.food.x, this.food.y, this.food.size, this.food.size);
+        }
+    }
+
+    // Check de la collision avec la nourriture
+    checkFoodCollision() {
+        const head = this.snake.body[0];
+        if (
+            head.x < this.food.x + this.food.size &&
+            head.x + this.snake.size > this.food.x &&
+            head.y < this.food.y + this.food.size &&
+            head.y + this.snake.size > this.food.y
+        ) {
+            // Mange la nourriture
+            this.snake.body.push({ x: head.x, y: head.y });
+            
+            // Repositionne la nourriture
+            this.food.x =
+                Math.floor(Math.random() * (this.width / this.food.size)) *
+                this.food.size;
+            this.food.y =
+                Math.floor(Math.random() * (this.height / this.food.size)) *
+                this.food.size;
+
+            // Allonge le serpent
+            this.snake.body.push({ x: head.x, y: head.y });
         }
     }
 
