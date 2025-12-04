@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Animation carré - Canvas</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            background: #111;
+            color: #eee;
+            font-family: Arial, sans-serif;
+        }
+
+        #game {
+            background: #0b1220;
+            border: 4px solid #222;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .ui {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #ddd;
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui">Touches : flèches / ZQSD — R : réinitialiser</div>
+    <canvas id="game" width="640" height="480"></canvas>
+    <script src="square.js"></script>
+    <script src="food.js"></script>
+
+    <script src="input.js"></script>
+    <script src="snake.js"></script>
+    <script src="game.js"></script>
+
+    <script>
+        // Récup canvas et contexte
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+
+        // Taille logique (peut adapter au redimensionnement si besoin)
+        const W = canvas.width;
+        const H = canvas.height;
+
+        // Initialisation du jeu
+        let snake = new Snake([{x: 100, y: 100}], 20, 'lime', {x: 0, y: 0}, 5);
+        let food = new Food(200, 200, 20, 'red', '🍎'); 
+        const game = new Game(W, H, snake, food, gridSize = 20, ctx);
+        game.init();
+
+        // Game loop
+        function loop(timestamp) {
+            // Effacer le canvas
+            ctx.fillStyle = '#0b1220';
+            ctx.fillRect(0, 0, W, H);
+
+            // Lire les inputs
+            readInput();
+
+            // Mettre à jour le jeu
+            game.update(1000 / 15); // 15 FPS
+
+            // Dessiner le serpentd
+            ctx.fillStyle = snake.color;
+            snake.body.forEach(segment => {
+                ctx.fillRect(segment.x, segment.y, snake.size, snake.size);
+            });
+
+            // Dessiner la nourriture
+            if (food.icon) {        
+                // Dessiner l'emoji/icon
+                ctx.font = `${food.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(food.icon, food.x + food.size / 2, food.y + food.size / 2);
+            } else {
+                // Fallback: rectangle coloré
+                ctx.fillStyle = food.color;
+                ctx.fillRect(food.x, food.y, food.size, food.size);
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+    </script>
+</body>
+
+</html>
