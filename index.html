@@ -6,13 +6,50 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Animation carré - Canvas</title>
     <link href="style.css" rel="stylesheet">
+    <script src="params.js"></script>
 </head>
 
 <body>
     <div class="ui">Touches : flèches / ZQSD — R : réinitialiser</div>
+
+    <div class="params-panel">
+        <h3>Paramètres du jeu</h3>
+
+        <div class="group">
+            <h4>Serpent</h4>
+
+            <label>Taille initiale</label>
+            <input type="number" id="snake-size" min="5" max="200">
+
+            <label>Couleur</label>
+            <input type="color" id="snake-color">
+
+            <label>Vitesse</label>
+            <input type="number" id="snake-speed" min="1" max="20">
+
+            <label>Augmentation par nourriture</label>
+            <input type="number" id="snake-increase" min="1" max="10">
+        </div>
+
+        <div class="group">
+            <h4>Nourriture</h4>
+
+            <label>Taille</label>
+            <input type="number" id="food-size" min="5" max="100">
+
+            <label>Couleur</label>
+            <input type="color" id="food-color">
+
+            <label>Icones (séparées par des virgules)</label>
+            <input type="text" id="food-icons">
+        </div>
+
+        <button id="apply">Appliquer</button>
+    </div>
     <canvas id="game" width="640" height="480"></canvas>
     <script src="square.js"></script>
     <script src="food.js"></script>
+    <script src="ui.js"></script>
 
     <script src="input.js"></script>
     <script src="snake.js"></script>
@@ -28,8 +65,8 @@
         const H = canvas.height;
 
         // Initialisation du jeu
-        let snake = new Snake([{x: 100, y: 100}], 35, 'lime', {x: 0, y: 0}, 5);
-        let food = new Food(200, 200, 20, 'red', '🍎'); 
+        let snake = new Snake([{ x: 100, y: 100 }], 35, 'lime', { x: 0, y: 0 }, 5, Params);
+        let food = new Food(200, 200, 20, 'red', '🍎');
         const game = new Game(W, H, snake, food, ctx);
         game.init();
     </script>

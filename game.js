@@ -1,10 +1,11 @@
 class Game {
-    constructor(width, height, snake, food, ctx) {
+    constructor(width, height, snake, food, ctx, params) {
         this.width = width;
         this.height = height;
         this.snake = snake;
         this.food = food;
         this.ctx = ctx;
+        this.params = params;
     }
 
     // Initialisation
@@ -94,7 +95,7 @@ class Game {
             head.y + this.snake.size > this.food.y
         ) {
             // Mange la nourriture
-            for(let i=0; i<4; i++)
+            for(let i=0; i< this.params.snake.increasePerFood; i++)
                 this.snake.body.push({ x: head.x, y: head.y });
             
             // Repositionne la nourriture
@@ -120,6 +121,13 @@ class Game {
     // Fin de partie
     endGame() {
         alert("Game Over!");
+        this.reset();
+    }
+
+    // update dthe params 
+    updateParams(newParams) {
+        this.params = newParams;
+
         this.reset();
     }
     
