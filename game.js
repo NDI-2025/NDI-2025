@@ -94,7 +94,8 @@ class Game {
             head.y + this.snake.size > this.food.y
         ) {
             // Mange la nourriture
-            this.snake.body.push({ x: head.x, y: head.y });
+            for(let i=0; i<4; i++)
+                this.snake.body.push({ x: head.x, y: head.y });
             
             // Repositionne la nourriture
             this.food.x =
