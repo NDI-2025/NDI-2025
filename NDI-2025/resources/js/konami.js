@@ -1,34 +1,35 @@
 // resources/js/konami.js
 
-export const konamiSequence = [
-    'ArrowUp', 'ArrowUp',
-    'ArrowDown', 'ArrowDown',
-    'ArrowLeft', 'ArrowRight',
-    'ArrowLeft', 'ArrowRight',
-    'KeyB', 'KeyA',
+const konamiSequence = [
+    'arrowup', 'arrowup',
+    'arrowdown', 'arrowdown',
+    'arrowleft', 'arrowright',
+    'arrowleft', 'arrowright',
+    'b', 'a',
 ];
 
 let index = 0;
 
-export default function konamiUnlocked() {
-    console.log('🎉 Konami détecté !');
-    alert('Konami code !');
+function konamiUnlocked() {
+    console.log('🎉 Konami Code Unlocked!');
+    window.location.href = '/snake';
 }
 
 window.addEventListener('keydown', (event) => {
-    const key = event.code; // ex: "ArrowUp", "KeyB", ...
+    const key = event.key.toLowerCase();
 
-    // touche correcte
     if (key === konamiSequence[index]) {
         index++;
 
-        // séquence complète
         if (index === konamiSequence.length) {
             index = 0;
             konamiUnlocked();
         }
     } else {
-        // reset si la touche ne correspond pas
         index = 0;
+        
+        if (key === konamiSequence[0]) {
+            index = 1;
+        }
     }
 });
