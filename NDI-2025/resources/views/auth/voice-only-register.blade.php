@@ -8,35 +8,37 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="h-full bg-gradient-to-br from-[#000055] via-purple-900 to-[#d8b4fe] font-[Montserrat]">
-    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
-        <div class="w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 sm:p-12">
+<body class="font-montserrat flex flex-col min-h-screen bg-gray-50 text-ndi-blue">
+    @include('layouts.partials.header')
+    
+    <main class="flex-grow py-16 bg-gray-100">
+        <div class="w-full max-w-2xl mx-auto px-4">
+        <div class="bg-white rounded-xl p-8 sm:p-12 border border-gray-100 shadow-xl">
 
-            <div class="text-center mb-8">
-                <div class="text-7xl mb-4">🎤</div>
-                <h1 class="text-4xl sm:text-5xl font-bold text-[#000055] mb-3">
-                    Inscription Vocale
+            <div class="text-center mb-10">
+                <h1 class="font-bebas text-5xl md:text-6xl text-ndi-blue mb-4 tracking-wide">
+                    INSCRIPTION VOCALE
                 </h1>
-                <p class="text-gray-600 text-lg">
+                <p class="text-gray-600 font-montserrat text-lg leading-relaxed">
                     Pseudonyme + Phrase secrète vocale
                 </p>
             </div>
 
-            <div class="bg-gradient-to-r from-[#d8b4fe]/20 to-purple-200/40 border-2 border-[#d8b4fe] rounded-2xl p-6 mb-8">
-                <h3 class="text-[#000055] font-semibold text-lg mb-4">
-                    🎙️ Comment ça marche ?
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-8">
+                <h3 class="text-ndi-blue font-bebas text-2xl mb-4 tracking-wide">
+                    🎙️ COMMENT ÇA MARCHE ?
                 </h3>
                 <ul class="space-y-3">
-                    <li class="flex items-start text-gray-700">
-                        <span class="mr-3">🎤</span>
+                    <li class="flex items-start text-gray-800 font-montserrat">
+                        <span class="mr-3 text-lg">🎤</span>
                         <span>Saisis ton pseudonyme</span>
                     </li>
-                    <li class="flex items-start text-gray-700">
-                        <span class="mr-3">🎤</span>
+                    <li class="flex items-start text-gray-800 font-montserrat">
+                        <span class="mr-3 text-lg">🎤</span>
                         <span>Clique sur le micro et prononce ta phrase secrète</span>
                     </li>
-                    <li class="flex items-start text-gray-700">
-                        <span class="mr-3">🎤</span>
+                    <li class="flex items-start text-gray-800 font-montserrat">
+                        <span class="mr-3 text-lg">🎤</span>
                         <span>Ta voix sera enregistrée</span>
                     </li>
                 </ul>
@@ -54,7 +56,7 @@
                 @csrf
 
                 <div>
-                    <label for="username" class="block text-gray-700 font-semibold mb-2 text-lg">
+                    <label for="username" class="block text-gray-800 font-bold mb-3 font-montserrat text-lg">
                         🎮 Pseudonyme
                     </label>
                     <input
@@ -63,30 +65,30 @@
                         name="username"
                         required
                         placeholder="ton_pseudo"
-                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-[#D2C72F] focus:ring-2 focus:ring-[#D2C72F]/20 transition-all text-lg"
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-ndi-blue focus:ring-2 focus:ring-ndi-blue transition-all font-montserrat"
                     >
                 </div>
 
-                <div class="bg-gradient-to-br from-gray-50 to-[#d8b4fe]/10 rounded-2xl p-8">
-                    <h3 class="text-[#000055] font-bold text-xl mb-6 text-center">
-                        🎤 Enregistre ta phrase secrète
+                <div class="bg-gray-50 border-2 border-gray-200 rounded-xl p-8">
+                    <h3 class="text-ndi-blue font-bebas text-3xl mb-6 text-center tracking-wide">
+                        🎤 PHRASE SECRÈTE
                     </h3>
 
                     <div class="flex justify-center mb-6">
                         <button
                             type="button"
                             id="micButton"
-                            class="w-48 h-48 rounded-full bg-gradient-to-br from-[#000055] to-purple-900 text-white text-7xl flex items-center justify-center shadow-2xl hover:scale-105 transition-transform duration-300">
+                            class="w-48 h-48 rounded-full bg-gradient-to-br from-ndi-blue to-purple-900 text-white text-7xl flex items-center justify-center shadow-2xl hover:scale-105 transition-transform duration-300">
                             🎤
                         </button>
                     </div>
 
-                    <div id="statusText" class="text-center text-gray-700 font-semibold text-lg mb-6">
+                    <div id="statusText" class="text-center text-gray-800 font-bold text-lg mb-6 font-montserrat">
                         Clique sur le micro
                     </div>
 
-                    <div id="transcription" class="bg-white border-2 border-dashed border-gray-300 rounded-xl p-6 min-h-[100px] flex items-center justify-center">
-                        <div class="text-gray-400 italic">Ta phrase apparaîtra ici...</div>
+                    <div id="transcription" class="bg-white border-2 border-dashed border-gray-300 rounded-lg p-6 min-h-[100px] flex items-center justify-center">
+                        <div class="text-gray-400 italic font-montserrat">Ta phrase apparaîtra ici...</div>
                     </div>
                 </div>
 
@@ -97,22 +99,25 @@
                     type="submit"
                     id="registerButton"
                     disabled
-                    class="w-full py-4 bg-gradient-to-r from-[#D2C72F] to-yellow-500 text-[#000055] font-bold text-xl rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="w-full py-4 bg-gradient-to-r from-ndi-blue to-purple-900 text-white font-bold font-montserrat rounded-lg hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg text-lg">
                     ✨ Créer mon compte
                 </button>
             </form>
 
-            <div class="mt-8 text-center space-x-4">
-                <a href="{{ route('voice.login') }}" class="text-[#000055] hover:text-[#D2C72F] font-semibold">
-                    🔑 J'ai déjà un compte
+            <div class="mt-8 text-center space-x-4 text-sm font-montserrat">
+                <a href="{{ route('voice.login') }}" class="text-ndi-blue hover:text-ndi-purple font-bold transition hover:underline">
+                    J'ai déjà un compte
                 </a>
-                <span class="text-gray-300">|</span>
-                <a href="{{ route('welcome') }}" class="text-[#000055] hover:text-[#D2C72F] font-semibold">
+                <span class="text-gray-400">|</span>
+                <a href="{{ route('welcome') }}" class="text-ndi-blue hover:text-ndi-purple font-bold transition hover:underline">
                     ← Retour
                 </a>
             </div>
         </div>
-    </div>
+        </div>
+    </main>
+    
+    @include('layouts.partials.footer')
 
     <script>
         let mediaRecorder;
