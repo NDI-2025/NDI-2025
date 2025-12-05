@@ -41,11 +41,11 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="font-montserrat flex flex-col min-h-screen bg-gray-50 text-ndi-blue">
+<body class="w-full font-montserrat flex flex-col min-h-screen bg-gray-50 text-ndi-blue">
 
     @include('layouts.partials.header')
 
-    <main class="flex-grow">
+    <main class="w-full flex-grow">
         @yield('content')
     </main>
 
