@@ -9,3 +9,6 @@ Route::get('/', function () {
 Route::get('/pitch', function () {
     return view('audio-visualizer');
 });
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
