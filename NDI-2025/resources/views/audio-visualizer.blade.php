@@ -105,7 +105,7 @@
     <a href="/" id="home-button">ACCUEIL</a>
     <div id="canvas-container"></div>
     <div id="video-container">
-        <video id="video" loop muted playsinline>
+        <video id="video" loop playsinline>
             <source src="/assets/video.mp4" type="video/mp4">
         </video>
         <div id="pause-indicator">▶</div>
