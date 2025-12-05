@@ -92,6 +92,7 @@ class Game {
         this.snake.body = [{ x: this.width / 2, y: this.height / 2 }];
         this.snake.direction = { x: 0, y: 0 };
         this.score = 0;
+        document.getElementById("windows-warning").innerText = "";
     }
 
     // Mise à jour du jeu
