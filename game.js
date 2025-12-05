@@ -6,20 +6,16 @@ class Game {
         this.food = food;
         this.ctx = ctx;
         this.params = params;
+        this.score = 0;
 
         this.preloadImages();
     }
 
     // Initialisation
     init() {
-        // Position initiale de la nourriture
-
-        this.food[0].x =
-            Math.floor(Math.random() * (this.width / this.food[0].size)) *
-            this.food[0].size;
-        this.food[0].y =
-            Math.floor(Math.random() * (this.height / this.food[0].size)) *
-            this.food[0].size;
+        for(let i = 0; i < 3; i++) {
+            this.generateEatableFood();
+        }
 
         // Lance la boucle de jeu
         this.loop();
@@ -27,16 +23,69 @@ class Game {
 
     // Collision avec les bords
     clampToBounds(obj) {
-        if (obj.x < 0) obj.x = this.width - this.snake.size;
-        if (obj.y < 0) obj.y = this.height - this.snake.size;
-        if (obj.x + this.snake.size > this.width) obj.x = 0;
-        if (obj.y + this.snake.size > this.height) obj.y = 0;
+        if (obj.x < 0) {
+            obj.x = this.width - this.snake.size;
+            this.generatePoisonFood();
+        }
+        if (obj.y < 0) {
+            obj.y = this.height - this.snake.size;
+            this.generatePoisonFood();
+        }
+        if (obj.x + this.snake.size > this.width) {
+            obj.x = 0;
+            this.generatePoisonFood();
+        }
+        if (obj.y + this.snake.size > this.height) {
+            obj.y = 0;
+            this.generatePoisonFood();
+        }
+    }
+
+    // générer une nourriture empoisonnée
+    generatePoisonFood() {
+        console.log("Génération d'une nourriture empoisonnée !");
+        this.food.push(
+            new Food(
+                Math.floor(
+                    Math.random() * (this.width / this.params.food.size)
+                ) * this.params.food.size,
+                Math.floor(
+                    Math.random() * (this.height / this.params.food.size)
+                ) * this.params.food.size,
+                this.params.food.size,
+                "windows",
+                "poison"
+            )
+        );
+    }
+
+    // Générer une nourriture aléatoire non empoisonnée
+    generateEatableFood() {
+        let newIcon;
+        do {
+            newIcon =
+                this.params.food.icons[
+                    Math.floor(Math.random() * this.params.food.icons.length)
+                ];
+        } while (newIcon === "windows");
+
+        const newFood = new Food(
+            Math.floor(Math.random() * (this.width / this.params.food.size)) *
+                this.params.food.size,
+            Math.floor(Math.random() * (this.height / this.params.food.size)) *
+                this.params.food.size,
+            35,
+            newIcon,
+            newIcon === "windows" ? "poison" : "normal"
+        );
+        this.food.push(newFood);
     }
 
     // Reset du jeu
     reset() {
         this.snake.body = [{ x: this.width / 2, y: this.height / 2 }];
         this.snake.direction = { x: 0, y: 0 };
+        this.score = 0;
     }
 
     // Mise à jour du jeu
@@ -89,6 +138,11 @@ class Game {
 
         // Dessiner la nourriture
         this.drawFood();
+
+        // Dessiner le score
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText("Score: " + this.score, 10, 25);
     }
 
     // Check de la collision avec la nourriture
@@ -106,6 +160,7 @@ class Game {
                     this.endGame();
                     return;
                 }
+                this.score += 1;
 
                 // Mange la nourriture
                 for (let i = 0; i < this.params.snake.increasePerFood; i++)
@@ -115,12 +170,16 @@ class Game {
                 this.food.splice(i, 1);
 
                 // Ajouter une nouvelle nourriture avec un nouvel icône
-                const newIcon =
-                    this.params.food.icons[
-                        Math.floor(
-                            Math.random() * this.params.food.icons.length
-                        )
-                    ];
+                let newIcon;
+                do {
+                    newIcon =
+                        this.params.food.icons[
+                            Math.floor(
+                                Math.random() * this.params.food.icons.length
+                            )
+                        ];
+                } while (newIcon === "windows");
+
                 const newFood = new Food(
                     Math.floor(
                         Math.random() * (this.width / this.params.food.size)
@@ -129,7 +188,8 @@ class Game {
                         Math.random() * (this.height / this.params.food.size)
                     ) * this.params.food.size,
                     35,
-                    newIcon
+                    newIcon,
+                    newIcon === "windows" ? "poison" : "normal"
                 );
                 this.food.push(newFood);
             }
@@ -175,6 +235,7 @@ class Game {
     // Fin de partie
     endGame() {
         alert("Game Over!");
+        this.food.splice(2, this.food.length); // Vide la nourriture
         this.reset();
     }
 

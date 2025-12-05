@@ -6,10 +6,6 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("snake-increase").value =
         Params.snake.increasePerFood;
 
-    document.getElementById("food-size").value = Params.food.size;
-    document.getElementById("food-color").value = Params.food.color;
-    document.getElementById("food-icons").value = Params.food.icons.join(",");
-
     // --- Appliquer les modifications --- //
     document.getElementById("apply").addEventListener("click", () => {
         Params.snake.initialSize = parseInt(
@@ -22,12 +18,6 @@ window.addEventListener("DOMContentLoaded", () => {
         Params.snake.increasePerFood = parseInt(
             document.getElementById("snake-increase").value
         );
-
-        Params.food.size = parseInt(document.getElementById("food-size").value);
-        Params.food.color = document.getElementById("food-color").value;
-
-        const icons = document.getElementById("food-icons").value.split(",");
-        Params.food.icons = icons.map((i) => i.trim()).filter((i) => i !== "");
 
         // Re-créer le snake et la food
         snake = new Snake(

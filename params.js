@@ -7,7 +7,7 @@ class Params {
     };
 
     static food = {
-        size: 20,
+        size: 30,
         icons: ['fedora', 'windows', 'archlinux','redhat','ubuntu', 'macos'],
     }
 }
