@@ -1,4 +1,4 @@
-<footer class="bg-ndi-blue text-gray-300 border-t border-white/10 mt-auto">
+<footer class="w-full bg-ndi-blue text-gray-300 border-t border-white/10 mt-auto">
     <div class="max-w-7xl mx-auto px-5 py-5 text-center">
         <div class="mb-2">
             <h3 class="text-xl font-mb-4 font-semibold uppercase tracking-wider">Liens</h3>
