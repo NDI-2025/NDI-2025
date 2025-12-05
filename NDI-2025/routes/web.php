@@ -26,6 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/voice-logout', [VoiceAuth::class, 'logout'])->name('voice.logout');
 });
 
+Route::get('/pitch', function () {
+    return view('audio-visualizer');
+});
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+Route::get('/snake', function () {
+    return view('snake');
+})->name('snake');

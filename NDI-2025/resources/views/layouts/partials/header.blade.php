@@ -1,5 +1,5 @@
-<div class="bg-ndi-blue text-ndi-purple shadow-md sticky top-0 z-50 border-b-2 border-b-white/40">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+<div class="bg-ndi-blue text-ndi-purple shadow-md sticky top-0 z-50 border-b-2 border-b-white/40 w-full ">
+    <div class="w-full px-4 py-4 flex items-center justify-between">
         <h1 class="text-3xl tracking-wide text-white">
             {{ config('app.name', 'NDI 2025') }}
         </h1>
