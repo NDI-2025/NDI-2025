@@ -159,31 +159,27 @@ const source = audioContext.createMediaElementSource(videoElement);
 source.connect(analyser);
 source.connect(audioContext.destination);
 
-// Unmute video on first interaction
-function startAudio() {
-	videoElement.muted = false;
-	videoElement.volume = 0.5;
-	audioContext.resume();
-	document.removeEventListener('click', startAudio);
-	document.removeEventListener('keydown', startAudio);
-	document.removeEventListener('touchstart', startAudio);
-}
-
-document.addEventListener('click', startAudio);
-document.addEventListener('keydown', startAudio);
-document.addEventListener('touchstart', startAudio);
-
 // Video container for effects
 const videoContainer = document.getElementById('video-container');
+const pauseIndicator = document.getElementById('pause-indicator');
 
 // Play/Pause video on click
-videoElement.addEventListener('click', (e) => {
+videoElement.addEventListener('click', async (e) => {
 	e.stopPropagation();
+	
+	// First interaction: start audio and video
+	if (audioContext.state === 'suspended') {
+		videoElement.muted = false;
+		videoElement.volume = 0.5;
+		await audioContext.resume();
+	}
+	
 	if (videoElement.paused) {
-		videoElement.play();
-		audioContext.resume();
+		await videoElement.play();
+		pauseIndicator.classList.add('hidden');
 	} else {
 		videoElement.pause();
+		pauseIndicator.classList.remove('hidden');
 	}
 });
 

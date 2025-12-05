@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perlin Noise X Vertex Shader</title>
+    <title>Pitch</title>
     @vite(['resources/css/app.css', 'resources/js/audio.js'])
     <style>
         body {
@@ -40,15 +40,75 @@
             border-radius: 8px;
             box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
             transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+            cursor: pointer;
+        }
+        #pause-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 85, 0.9);
+            border: 3px solid rgba(99, 102, 241, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+            pointer-events: none;
+            z-index: 11;
+            line-height: 1;
+            padding-left: 8px;
+        }
+        #pause-indicator.hidden {
+            display: none;
+        }
+        #home-button {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 20;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 85, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.6);
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        #home-button:hover {
+            background: rgba(0, 0, 85, 1);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.8);
+            transform: translateY(-1px);
+            border-color: rgba(99, 102, 241, 1);
+        }
+        #home-button::before {
+            content: '\2190';
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
+    <a href="/" id="home-button">ACCUEIL</a>
     <div id="canvas-container"></div>
     <div id="video-container">
-        <video id="video" autoplay loop muted playsinline>
+        <video id="video" loop muted playsinline>
             <source src="/assets/video.mp4" type="video/mp4">
         </video>
+        <div id="pause-indicator">▶</div>
     </div>
     <script id="vertexshader" type="vertex">
       uniform float u_time;
