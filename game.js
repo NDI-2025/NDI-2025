@@ -6,6 +6,8 @@ class Game {
         this.food = food;
         this.ctx = ctx;
         this.params = params;
+
+        this.preloadImages();
     }
 
     // Initialisation
@@ -43,7 +45,10 @@ class Game {
         const input = readInput();
 
         // Mettre à jour la direction seulement si une touche est pressée
-        if ( this.checkOppositeDirectionChange(input)  && (input.dx !== 0 || input.dy !== 0)  ) {
+        if (
+            this.checkOppositeDirectionChange(input) &&
+            (input.dx !== 0 || input.dy !== 0)
+        ) {
             this.snake.direction.x = input.dx;
             this.snake.direction.y = input.dy;
         }
@@ -97,7 +102,7 @@ class Game {
                 head.y < currentFood.y + currentFood.size &&
                 head.y + this.snake.size > currentFood.y
             ) {
-                if(currentFood.type === 'poison'){
+                if (currentFood.type === "poison") {
                     this.endGame();
                     return;
                 }
@@ -106,7 +111,6 @@ class Game {
                 for (let i = 0; i < this.params.snake.increasePerFood; i++)
                     this.snake.body.push({ x: head.x, y: head.y });
 
-                
                 // Repositionne la nourriture
                 this.food.splice(i, 1);
 
@@ -115,14 +119,16 @@ class Game {
                     this.params.food.icons[
                         Math.floor(
                             Math.random() * this.params.food.icons.length
-                        )   
-                    ];;
+                        )
+                    ];
                 const newFood = new Food(
-                    Math.floor(Math.random() * (this.width / this.params.food.size)) *
-                        this.params.food.size,
-                    Math.floor(Math.random() * (this.height / this.params.food.size)) *
-                        this.params.food.size,
-                    this.params.food.size,
+                    Math.floor(
+                        Math.random() * (this.width / this.params.food.size)
+                    ) * this.params.food.size,
+                    Math.floor(
+                        Math.random() * (this.height / this.params.food.size)
+                    ) * this.params.food.size,
+                    35,
                     newIcon
                 );
                 this.food.push(newFood);
@@ -136,7 +142,10 @@ class Game {
         const currentDy = this.snake.direction.y;
         const newDx = input.dx;
         const newDy = input.dy;
-        if ((currentDx === -newDx || currentDy === -newDy) && (currentDx !== 0 || currentDy !== 0)) {
+        if (
+            (currentDx === -newDx || currentDy === -newDy) &&
+            (currentDx !== 0 || currentDy !== 0)
+        ) {
             return false;
         }
         return true;
@@ -145,7 +154,7 @@ class Game {
     // Vérifier si le serpent se mord lui-même
     checkSelfCollision() {
         const head = this.snake.body[0];
-        
+
         // Vérifie la collision avec chaque segment du corps (sauf la tête)
         for (let i = 2; i < this.snake.body.length; i++) {
             const segment = this.snake.body[i];
@@ -172,16 +181,20 @@ class Game {
     // Dessiner la nourriture
     drawFood() {
         for (let i = 0; i < this.food.length; i++) {
-            let currentFood = this.food[i];
-            if (currentFood.icon) {
-                // Dessiner l'emoji/icon
-                this.ctx.font = `${currentFood.size}px Arial`;
-                this.ctx.textAlign = "center";
-                this.ctx.textBaseline = "middle";
-                this.ctx.fillText(
-                    currentFood.icon,
-                    currentFood.x + currentFood.size / 2,
-                    currentFood.y + currentFood.size / 2
+            const currentFood = this.food[i];
+
+            if (
+                currentFood.icon &&
+                this.foodImages &&
+                this.foodImages[currentFood.icon]
+            ) {
+                // Dessiner l'image PNG préchargée
+                this.ctx.drawImage(
+                    this.foodImages[currentFood.icon], // Image préchargée
+                    currentFood.x, // x
+                    currentFood.y, // y
+                    currentFood.size, // width
+                    currentFood.size // height
                 );
             } else {
                 // Fallback: rectangle coloré
@@ -194,6 +207,16 @@ class Game {
                 );
             }
         }
+    }
+
+    // Charger les images
+    preloadImages() {
+        this.foodImages = {};
+        this.params.food.icons.forEach((icon) => {
+            const img = new Image();
+            img.src = `images/${icon}.png`;
+            this.foodImages[icon] = img;
+        });
     }
 
     // update dthe params

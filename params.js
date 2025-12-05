@@ -8,6 +8,6 @@ class Params {
 
     static food = {
         size: 20,
-        icons: ['🍎', '🍌', '🍇', '🍉', '🍒']
+        icons: ['fedora', 'windows', 'archlinux','redhat','ubuntu', 'macos'],
     }
 }
