@@ -149,10 +149,7 @@ class Game {
         // Vérifie la collision avec chaque segment du corps (sauf la tête)
         for (let i = 2; i < this.snake.body.length; i++) {
             const segment = this.snake.body[i];
-            if (head.x >= segment.x - 15 &&
-                head.y >= segment.y - 15 &&
-                head.x < segment.x + 15 &&
-                head.y < segment.y + 15 ) {
+            if (head.x === segment.x && head.y === segment.y) {
                 return true;
             }
         }
