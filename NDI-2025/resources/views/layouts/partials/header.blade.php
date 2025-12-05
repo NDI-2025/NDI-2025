@@ -7,6 +7,8 @@
         <nav class="hidden md:flex space-x-8 font-montserrat font-semibold">
             <a href="/" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Accueil</a>
             <a href="/about" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">À propos</a>
+            <a href="/pitch" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Visualiseur audio</a>
+
         </nav>
 
         <button id="burger-menu" class="md:hidden text-ndi-purple hover:text-ndi-purple transition" onclick="toggleMenu()">
