@@ -19,8 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'voice_hash',
+        'secret_phrase',
+        'voice_registered_at',
     ];
 
     /**
@@ -31,6 +35,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'secret_phrase',
+        'voice_hash',
     ];
 
     /**
@@ -42,6 +48,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'voice_registered_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
