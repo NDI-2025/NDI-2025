@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="relative bg-ndi-blue text-white py-16">
-        <div class="container mx-auto px-4 relative z-10 text-center">
+        <div class="w-full px-4 relative z-10 text-center">
             <span
                 class="inline-block py-1 px-3 rounded-full bg-ndi-lime text-ndi-blue font-bold text-sm mb-4 tracking-wider animate-pulse">
                 URGENCE NUMÉRIQUE
@@ -24,7 +24,7 @@
     </section>
 
     <section id="simulation" class="py-16 bg-gray-100 scroll-mt-10 select-none">
-        <div class="container mx-auto px-4">
+        <div class="w-full px-4">
 
             <div class="max-w-3xl mx-auto mb-10">
                 <div class="flex justify-between text-xs font-bold text-gray-500 mb-1 font-montserrat">
@@ -118,7 +118,7 @@
     </div>
 
     <section class="py-20 bg-white border-t border-gray-200">
-        <div class="container mx-auto px-4">
+        <div class="w-full px-4">
 
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="font-bebas text-4xl md:text-5xl text-ndi-blue mb-4">LES SOLUTIONS DE REMPLACEMENT</h2>
