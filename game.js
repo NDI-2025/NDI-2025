@@ -1,3 +1,7 @@
+const BASE_IMAGE_URL = "images/";
+const IMAGE_EXTENSION = ".png";
+
+
 class Game {
     constructor(width, height, snake, food, ctx, params) {
         this.width = width;
@@ -7,6 +11,8 @@ class Game {
         this.ctx = ctx;
         this.params = params;
         this.score = 0;
+
+        this.windowsTouched = 0;
 
         this.preloadImages();
     }
@@ -157,8 +163,17 @@ class Game {
                 head.y + this.snake.size > currentFood.y
             ) {
                 if (currentFood.type === "poison") {
-                    this.endGame();
-                    return;
+
+
+                    if(this.windowsTouched > 0){
+                        this.endGame();
+                        return;
+                    }
+
+                    this.windowsTouched += 1;
+
+                    document.getElementById("windows-warning").innerText =
+                        "Attention ! Vous avez touché une nourriture empoisonnée. La prochaine fois, ce sera la fin du jeu !";
                 }
                 this.score += 1;
 
@@ -275,7 +290,7 @@ class Game {
         this.foodImages = {};
         this.params.food.icons.forEach((icon) => {
             const img = new Image();
-            img.src = `images/${icon}.png`;
+            img.src = `${BASE_IMAGE_URL}${icon}${IMAGE_EXTENSION}`;
             this.foodImages[icon] = img;
         });
     }
