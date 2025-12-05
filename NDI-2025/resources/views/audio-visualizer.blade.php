@@ -5,22 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perlin Noise X Vertex Shader</title>
+    @vite(['resources/css/app.css', 'resources/js/audio.js'])
     <style>
         body {
             margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        #canvas-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        #video-container {
+            width: 45%;
+            height: 80vh;
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            z-index: 10;
+            perspective: 1000px;
+        }
+        #video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
         }
     </style>
-    <script async src="https://unpkg.com/es-module-shims@2.6.2/dist/es-module-shims.js"></script>
-    <script type="importmap">
-        {
-            "imports": {
-            "three": "https://unpkg.com/three@0.179.1/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.179.1/examples/jsm/"
-            }
-        }
-    </script>
 </head>
 <body>
+    <div id="canvas-container"></div>
+    <div id="video-container">
+        <video id="video" autoplay loop muted playsinline>
+            <source src="/assets/video.mp4" type="video/mp4">
+        </video>
+    </div>
     <script id="vertexshader" type="vertex">
       uniform float u_time;
 
@@ -122,7 +151,7 @@
 
       void main() {
           float noise = 3.0 * pnoise(position + u_time, vec3(10.0));
-          float displacement = (u_frequency / 30.) * (noise / 10.);
+          float displacement = (u_frequency / 20.) * (noise / 7.);
           vec3 newPosition = position + normal * displacement;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
       }
@@ -135,6 +164,5 @@
             gl_FragColor = vec4(vec3(u_red, u_green, u_blue), 1. );
         }
     </script>
-    <script src="./audio.js" type="module"></script>
 </body>
 </html>
