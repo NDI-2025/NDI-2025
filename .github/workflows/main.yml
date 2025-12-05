@@ -1,0 +1,30 @@
+name: Deploy to AlwaysData
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/edumai_github_ndi
+          chmod 600 ~/.ssh/edumai_github_ndi
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/edumai_github_ndi -o IdentitiesOnly=yes" \
+            --exclude ".git" \
+            --exclude ".github" \
+            . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/www/
+
