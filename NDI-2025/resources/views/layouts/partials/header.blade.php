@@ -8,6 +8,7 @@
             <a href="/" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Accueil</a>
             <a href="/about" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">À propos</a>
             <a href="/pitch" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Visualiseur audio</a>
+            <a href="/login" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Authentification vocale</a>
 
         </nav>
 
@@ -20,6 +21,8 @@
         <ul class="flex flex-col p-4 space-y-2">
             <li><a href="/" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Accueil</a></li>
             <li><a href="/about" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">À propos</a></li>
+            <li><a href="/pitch" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Visualiseur audio</a></li>
+            <li><a href="/login" class="block py-2 px-4 hover:bg-white/20 rounded-full transition">Authentification vocale</a></li>
         </ul>
     </nav>
 </div>
